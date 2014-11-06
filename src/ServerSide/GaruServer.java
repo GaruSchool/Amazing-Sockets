@@ -31,7 +31,7 @@ public class GaruServer extends ServerBase {
     @Override
     public void removeHandler(ClientHandler handler) {
         super.removeHandler(handler);
-        System.out.println("#SERVER # " + handler.getClientName() + " # Disconnected");
+        System.out.println("#SERVER  \"" + handler.getClientName() + "\" Disconnected");
     }
 
     @Override

@@ -61,7 +61,6 @@ public class ServerBase implements ServerInterface {
         ClientHandler handler = new ClientHandler(this, socket);
         this.clientHandlers.add(handler);
         handler.start();
-
     }
 
     @Override
