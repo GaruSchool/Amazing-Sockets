@@ -4,6 +4,8 @@ import ServerSide.ServerImplementation.ClientHandler;
 import ServerSide.ServerImplementation.ServerBase;
 
 import java.io.IOException;
+import java.net.BindException;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 
@@ -18,8 +20,22 @@ public class GaruServer extends ServerBase {
 
     @Override
     public void startListening() {
-        System.out.println("Server Started On Port: " + port);
-        super.startListening();
+        if (canListen(port)) {
+            isRunning = true;
+            try {
+                listener = new ServerSocket(port);
+                while (isRunning)
+                    createHandler(listener.accept());
+
+            } catch (IOException e) {
+                System.out.println("Errore durante l'avvio del server\nStackTrace:\n" + e.toString());
+            }
+        } else {
+            System.out.println("Errore durante l'avvio del server: la porta " + port + " è utilizzata da un altro applicativo\nRicerca porte libere...");
+            port = getNextAvailablePort(port);
+            System.out.println("Mi sposto sulla prossima porta libera: " + port);
+            startListening();
+        }
     }
 
     @Override
@@ -50,6 +66,25 @@ public class GaruServer extends ServerBase {
         super.onMessageRecived(handler, message, messageType);
         String oMessage = (getFormattedMessage(handler,message,messageType)==null) ? message : getFormattedMessage(handler,message,messageType);
         System.out.println(oMessage);
+    }
+
+    private static boolean canListen(int port) {
+        try {
+            ServerSocket testListener = new ServerSocket(port);
+            testListener.close();
+        } catch (BindException bindException) {
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private static int getNextAvailablePort(int startingPort) {
+        int port = startingPort;
+        while (!canListen(port))
+            port++;
+        return port;
     }
 
 }
