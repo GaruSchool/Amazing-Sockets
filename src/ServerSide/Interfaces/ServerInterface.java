@@ -1,6 +1,6 @@
 package ServerSide.Interfaces;
 
-import ServerSide.ServerImplementations.ClientHandler;
+import ServerSide.ServerClasses.ClientHandler;
 
 import java.io.IOException;
 import java.net.Socket;

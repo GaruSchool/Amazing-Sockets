@@ -1,7 +1,7 @@
-package ServerSide;
+package ServerSide.ServerImplementations.ChatServer;
 
-import ServerSide.ServerImplementations.ClientHandler;
-import ServerSide.ServerImplementations.ServerBase;
+import ServerSide.ServerClasses.ClientHandler;
+import ServerSide.ServerClasses.ServerBase;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -12,10 +12,29 @@ import java.net.Socket;
 /**
  * Created by Garu on 06/11/2014.
  */
-public class GaruServer extends ServerBase {
+public class ChatServer extends ServerBase {
 
-    public GaruServer(String name, int port) {
+    public ChatServer(String name, int port) {
         super(name, port);
+    }
+
+    private static boolean canListen(int port) {
+        try {
+            ServerSocket testListener = new ServerSocket(port);
+            testListener.close();
+        } catch (BindException bindException) {
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private static int getNextAvailablePort(int startingPort) {
+        int port = startingPort;
+        while (!canListen(port))
+            port++;
+        return port;
     }
 
     @Override
@@ -64,27 +83,8 @@ public class GaruServer extends ServerBase {
     @Override
     public void onMessageRecived(ClientHandler handler, String message, int messageType) {
         super.onMessageRecived(handler, message, messageType);
-        String oMessage = (getFormattedMessage(handler,message,messageType)==null) ? message : getFormattedMessage(handler,message,messageType);
+        String oMessage = (getFormattedMessage(handler, message, messageType) == null) ? message : getFormattedMessage(handler, message, messageType);
         System.out.println(oMessage);
-    }
-
-    private static boolean canListen(int port) {
-        try {
-            ServerSocket testListener = new ServerSocket(port);
-            testListener.close();
-        } catch (BindException bindException) {
-            return false;
-        } catch (IOException e) {
-            return false;
-        }
-        return true;
-    }
-
-    private static int getNextAvailablePort(int startingPort) {
-        int port = startingPort;
-        while (!canListen(port))
-            port++;
-        return port;
     }
 
 }

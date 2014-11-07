@@ -1,4 +1,4 @@
-package ServerSide.ServerImplementations;
+package ServerSide.ServerClasses;
 
 import ServerSide.Interfaces.ClientListener;
 import ServerSide.Interfaces.ServerInterface;

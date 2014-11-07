@@ -1,8 +1,8 @@
 package ServerSide.ServerImplementations.LoggingServer;
 
 import ServerSide.Interfaces.ClientListener;
-import ServerSide.ServerImplementations.ClientHandler;
-import ServerSide.ServerImplementations.ServerBase;
+import ServerSide.ServerClasses.ClientHandler;
+import ServerSide.ServerClasses.ServerBase;
 
 import java.util.ArrayList;
 
