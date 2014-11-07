@@ -1,7 +1,7 @@
 package ServerSide;
 
-import ServerSide.ServerImplementation.ClientHandler;
-import ServerSide.ServerImplementation.ServerBase;
+import ServerSide.ServerImplementations.ClientHandler;
+import ServerSide.ServerImplementations.ServerBase;
 
 import java.io.IOException;
 import java.net.BindException;

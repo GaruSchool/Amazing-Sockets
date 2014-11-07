@@ -1,6 +1,6 @@
 package ServerSide.Interfaces;
 
-import ServerSide.ServerImplementation.ClientHandler;
+import ServerSide.ServerImplementations.ClientHandler;
 
 /**
  * Created by Garu on 06/11/2014.

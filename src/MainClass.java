@@ -1,4 +1,4 @@
-import ServerSide.GaruServer;
+import ServerSide.ServerImplementations.LoggingServer.LoggingServer;
 
 /**
  * Created by Garu on 06/11/2014.
@@ -8,7 +8,7 @@ public class MainClass {
         new Thread() {
             @Override
             public void run() {
-                new GaruServer("Garu", 9999).startListening();
+                new LoggingServer("Garu", 9999).startListening();
             }
         }.start();
     }

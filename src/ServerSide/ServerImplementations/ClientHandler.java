@@ -1,4 +1,4 @@
-package ServerSide.ServerImplementation;
+package ServerSide.ServerImplementations;
 
 import ServerSide.Interfaces.ClientListener;
 import ServerSide.Interfaces.ServerInterface;
@@ -13,7 +13,6 @@ import java.net.Socket;
  * Created by Garu on 06/11/2014.
  */
 public class ClientHandler extends Thread {
-
 
     private Socket socket;
     private ClientListener listener;
@@ -85,8 +84,13 @@ public class ClientHandler extends Thread {
         return name;
     }
 
-
     public void setClientName(String name) {
         this.name = name;
     }
+
+    public String getIpAddress()
+    {
+        return this.socket.getRemoteSocketAddress().toString();
+    }
+
 }

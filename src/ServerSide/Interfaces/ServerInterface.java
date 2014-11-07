@@ -1,6 +1,6 @@
 package ServerSide.Interfaces;
 
-import ServerSide.ServerImplementation.ClientHandler;
+import ServerSide.ServerImplementations.ClientHandler;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -12,7 +12,6 @@ public interface ServerInterface extends ClientListener {
 
     public static String SERVER_DISCONNECTED = "#SERVER_DISCONNECTED";
     public static String SERVER_CONNECTED = "#SERVER_CONNECTED";
-
 
     public void startListening();
 
