@@ -76,15 +76,7 @@ public class ChatServer extends ServerBase {
     }
 
     @Override
-    public void broadcastMessage(ClientHandler sender, String message) {
-        super.broadcastMessage(sender, message);
+    public void onClientMessageRecived(ClientHandler client, String message) {
+        broadcastMessage(client,getFormattedMessage(client,message));
     }
-
-    @Override
-    public void onMessageRecived(ClientHandler handler, String message, int messageType) {
-        super.onMessageRecived(handler, message, messageType);
-        String oMessage = (getFormattedMessage(handler, message, messageType) == null) ? message : getFormattedMessage(handler, message, messageType);
-        System.out.println(oMessage);
-    }
-
 }

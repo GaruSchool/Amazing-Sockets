@@ -41,6 +41,8 @@ public class ServerBase implements ServerInterface {
     @Override
     public void stopListening() throws IOException {
 
+        this.isRunning = false;
+
         broadcastMessage(null, SERVER_DISCONNECTED);
 
         for (ClientHandler handler : clientHandlers)
@@ -72,22 +74,34 @@ public class ServerBase implements ServerInterface {
     }
 
     @Override
+    public void onClientMessageRecived(ClientHandler client, String message) {
+        // TODO Implement it!
+    }
+
+    @Override
+    public void onHandlerMessageRecived(ClientHandler clientHandler, String message) {
+        if (message.equals(ClientListener.CLIENT_NOTIFY_DISCONNECT) || message.equals(ClientListener.CLIENT_NOTIFY_ERROR))
+            this.removeHandler(clientHandler);
+    }
+
+    @Override
+    public void onClientConnected(ClientHandler handler) {
+
+    }
+
+    @Override
     public void onMessageRecived(ClientHandler handler, String message, int messageType) {
         synchronized (this) {
-            if (messageType == ClientListener.MESSAGE_TYPE_NOTIFY)
-                if (message.equals(ClientListener.CLIENT_NOTIFY_DISCONNECT) || message.equals(ClientListener.CLIENT_NOTIFY_ERROR))
-                    removeHandler(handler);
-
-            this.broadcastMessage(handler, getFormattedMessage(handler, message, messageType));
+            if (messageType == ServerInterface.MESSAGE_TYPE_CLIENT)
+                this.onClientMessageRecived(handler, message);
+            else if (messageType == ServerInterface.MESSAGE_TYPE_NOTIFY)
+                this.onHandlerMessageRecived(handler, message);
         }
     }
 
-    protected String getFormattedMessage(ClientHandler handler, String message, int messageType) {
-        if (messageType == ClientListener.MESSAGE_TYPE_CLIENT) {
+    protected String getFormattedMessage(ClientHandler handler, String message) {
             String formattedMessage = handler.getClientName() + ": " + message;
             return formattedMessage;
-        } else
-            return null;
     }
 
 }

@@ -22,4 +22,11 @@ public interface ServerInterface extends ClientListener {
     public abstract void createHandler(Socket socket);
 
     public abstract void broadcastMessage(ClientHandler sender, String message);
+
+    public abstract void onClientMessageRecived(ClientHandler client, String message);
+
+    public abstract void onHandlerMessageRecived(ClientHandler clientHandler, String message);
+
+    public abstract void onClientConnected(ClientHandler handler);
+
 }
