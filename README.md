@@ -1,7 +1,6 @@
-**Amazing-Sockets
-===============**
+**Amazing-Sockets**
 
-**Java Modular Implementation of a client-server socket based architecture**
+*Java Modular Implementation of a client-server socket based architecture*
 
 The only class that you need to create an Amazing Sockets based server is the BaseServer class.
 
