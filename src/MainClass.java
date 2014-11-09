@@ -1,3 +1,5 @@
+import ServerSide.ServerImplementations.BasicServerImpl.BasicEchoServer;
+import ServerSide.ServerImplementations.ChatServer.ChatServer;
 import ServerSide.ServerImplementations.LoggingServer.LoggingServer;
 
 /**
@@ -8,7 +10,7 @@ public class MainClass {
         new Thread() {
             @Override
             public void run() {
-                new LoggingServer("Garu", 9999).startListening();
+                new BasicEchoServer("Garu", 9999).startListening();
             }
         }.start();
     }

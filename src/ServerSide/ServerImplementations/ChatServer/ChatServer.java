@@ -6,7 +6,6 @@ import ServerSide.ServerClasses.ServerBase;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 
 /**
@@ -18,7 +17,7 @@ public class ChatServer extends ServerBase {
         super(name, port);
     }
 
-    private static boolean canListen(int port) {
+    private static boolean canListen(int port) { // TODO -> Make it static  ?
         try {
             ServerSocket testListener = new ServerSocket(port);
             testListener.close();
@@ -43,6 +42,7 @@ public class ChatServer extends ServerBase {
             isRunning = true;
             try {
                 listener = new ServerSocket(port);
+                System.out.println("Server Listening On: " + port);
                 while (isRunning)
                     createHandler(listener.accept());
 
@@ -64,19 +64,18 @@ public class ChatServer extends ServerBase {
     }
 
     @Override
-    public void removeHandler(ClientHandler handler) {
-        super.removeHandler(handler);
+    public void onClientDisconnected(ClientHandler handler) {
         System.out.println("#SERVER  \"" + handler.getClientName() + "\" Disconnected");
     }
 
     @Override
-    public void createHandler(Socket socket) {
-        super.createHandler(socket);
-        System.out.println("Client Connected - " + socket.getLocalAddress().toString());
+    public void onClientConnected(ClientHandler handler) {
+        System.out.println("#SERVER  \"" + handler.getClientName() + "\" Connected");
     }
 
     @Override
     public void onClientMessageRecived(ClientHandler client, String message) {
-        broadcastMessage(client,getFormattedMessage(client,message));
+        broadcastMessage(client, getFormattedMessage(client, message));
+        System.out.println(getFormattedMessage(client,message));
     }
 }

@@ -15,14 +15,15 @@ public class ServerBase implements ServerInterface {
 
     protected String name;
     protected int port;
-    protected ArrayList<ClientHandler> clientHandlers = new ArrayList<ClientHandler>();
+    protected ArrayList<ClientHandler> clientHandlers;
     protected ServerSocket listener = null;
     protected boolean isRunning;
 
     public ServerBase(String name, int port) {
         this.name = name;
         this.port = port;
-        isRunning = false;
+        this.isRunning = false;
+        this.clientHandlers = new ArrayList<ClientHandler>();
     }
 
     @Override
@@ -30,32 +31,32 @@ public class ServerBase implements ServerInterface {
         isRunning = true;
         try {
             listener = new ServerSocket(port);
+            this.onListeningStarted(port);
             while (isRunning)
                 createHandler(listener.accept());
 
         } catch (IOException e) {
+            isRunning = false;
             System.out.println("Errore durante l'avvio del server\nStackTrace:\n" + e.toString());
         }
     }
 
     @Override
     public void stopListening() throws IOException {
-
         this.isRunning = false;
-
         broadcastMessage(null, SERVER_DISCONNECTED);
-
         for (ClientHandler handler : clientHandlers)
             handler.dispose();
-
         if (listener != null)
             listener.close();
+        this.onListeningStopped();
     }
 
     @Override
     public void removeHandler(ClientHandler handler) {
         handler.dispose();
         this.clientHandlers.remove(handler);
+        this.onClientDisconnected(handler);
     }
 
     @Override
@@ -63,6 +64,7 @@ public class ServerBase implements ServerInterface {
         ClientHandler handler = new ClientHandler(this, socket);
         this.clientHandlers.add(handler);
         handler.start();
+        this.onClientConnected(handler);
     }
 
     @Override
@@ -74,19 +76,9 @@ public class ServerBase implements ServerInterface {
     }
 
     @Override
-    public void onClientMessageRecived(ClientHandler client, String message) {
-        // TODO Implement it!
-    }
-
-    @Override
     public void onHandlerMessageRecived(ClientHandler clientHandler, String message) {
         if (message.equals(ClientListener.CLIENT_NOTIFY_DISCONNECT) || message.equals(ClientListener.CLIENT_NOTIFY_ERROR))
             this.removeHandler(clientHandler);
-    }
-
-    @Override
-    public void onClientConnected(ClientHandler handler) {
-
     }
 
     @Override
@@ -100,8 +92,24 @@ public class ServerBase implements ServerInterface {
     }
 
     protected String getFormattedMessage(ClientHandler handler, String message) {
-            String formattedMessage = handler.getClientName() + ": " + message;
-            return formattedMessage;
+        String formattedMessage = handler.getClientName() + ": " + message;
+        return formattedMessage;
     }
+
+
+    @Override
+    public void onClientConnected(ClientHandler handler) {}
+
+    @Override
+    public void onClientDisconnected(ClientHandler handler) {}
+
+    @Override
+    public void onListeningStarted(int port) {}
+
+    @Override
+    public void onListeningStopped() {}
+
+    @Override
+    public void onClientMessageRecived(ClientHandler client, String message) {}
 
 }

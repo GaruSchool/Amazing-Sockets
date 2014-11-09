@@ -14,15 +14,18 @@ import java.net.Socket;
  */
 public class ClientHandler extends Thread {
 
+    private static String default_nickname = "UnamedClient";
+
     private Socket socket;
     private ClientListener listener;
-    private String name = "UnamedClient";
+    private String name;
     private boolean isRunning;
 
     public ClientHandler(ClientListener listener, Socket socket) {
         this.listener = listener;
         this.isRunning = true;
         this.socket = socket;
+        name =  default_nickname;
         sendMessage(ServerInterface.SERVER_CONNECTED);
     }
 
@@ -35,7 +38,7 @@ public class ClientHandler extends Thread {
                 if (input != null)
                     handleMessage(input);
                 else
-                    notifyClientDisconnect();
+                    notifyClientDisconnect(ClientListener.CLIENT_NOTIFY_DISCONNECT);
 
             }
 
@@ -50,12 +53,12 @@ public class ClientHandler extends Thread {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             out.println(message);
         } catch (IOException e) {
-            notifyClientDisconnect();
+            notifyClientDisconnect(ClientListener.CLIENT_NOTIFY_ERROR);
         }
     }
 
-    private void notifyClientDisconnect() {
-        listener.onMessageRecived(this, ClientListener.CLIENT_NOTIFY_DISCONNECT, ClientListener.MESSAGE_TYPE_NOTIFY);
+    private void notifyClientDisconnect(String disconnectType) {
+        listener.onMessageRecived(this, disconnectType, ClientListener.MESSAGE_TYPE_NOTIFY);
     }
 
     public void dispose() {
@@ -73,7 +76,7 @@ public class ClientHandler extends Thread {
         listener.onMessageRecived(this, message, ClientListener.MESSAGE_TYPE_CLIENT);
 
         if (message.equals(ClientListener.CLIENT_NOTIFY_DISCONNECT))
-            notifyClientDisconnect();
+            notifyClientDisconnect(ClientListener.CLIENT_NOTIFY_DISCONNECT);
 
         if (message.contains(ClientListener.CLIENT_MESSAGE_NAME))
             this.name = message.replace(ClientListener.CLIENT_MESSAGE_NAME, "");
@@ -81,7 +84,7 @@ public class ClientHandler extends Thread {
 
 
     public String getClientName() {
-        return name;
+        return (name.equals(default_nickname) ? getIpAddress() : name);
     }
 
     public void setClientName(String name) {
