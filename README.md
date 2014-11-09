@@ -76,11 +76,6 @@ Override this method if you need a different message formatting.
 	    public void onClientMessageRecived(ClientHandler client, String message) {
 	       client.sendMessage(message);
 	   }
-
-	    @Override
-	    public void onListeningStarted(int port) {
-	      System.out.println("Server Started, Listening on port: " + port);
-	  }
 	}
 
 **Chat Server Implementation Example**
