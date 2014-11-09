@@ -1,5 +1,5 @@
-**Amazing-Sockets
-===============**
+**Amazing-Sockets**
+
 
 **Java Modular Implementation of a client-server socket based architecture**
 
