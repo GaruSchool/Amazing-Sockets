@@ -64,5 +64,22 @@ You should **never** override this method as it provides the concurrent access f
 Override this method if you need a different message formatting.
 
     String getFormattedMessage(ClientHandler handler, String message)
+    
+** Echo Server Implementation Example**
 
+	public class BasicEchoServer extends ServerBase {
+	   public BasicEchoServer(String name, int port) {
+	    super(name, port);
+	    }
+
+	    @Override
+	    public void onClientMessageRecived(ClientHandler client, String message) {
+	       client.sendMessage(message);
+	   }
+
+	    @Override
+	    public void onListeningStarted(int port) {
+	      System.out.println("Server Started, Listening on port: " + port);
+	  }
+	}
 
