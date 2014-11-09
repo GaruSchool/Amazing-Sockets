@@ -26,6 +26,10 @@ public class ServerBase implements ServerInterface {
         this.clientHandlers = new ArrayList<ClientHandler>();
     }
 
+    /*
+       When you override startListening() Method keep in mind to call onListeningStarted(int)
+       as your socket start the listening on the selected port
+    */
     @Override
     public void startListening() {
         isRunning = true;
@@ -41,6 +45,10 @@ public class ServerBase implements ServerInterface {
         }
     }
 
+    /*
+        When you override stopListening() Method keep in mind to call onListeningStopped()
+        At the end of your implementation
+     */
     @Override
     public void stopListening() throws IOException {
         this.isRunning = false;
@@ -52,6 +60,11 @@ public class ServerBase implements ServerInterface {
         this.onListeningStopped();
     }
 
+
+    /*
+       When you override removeHandler(ClientHandler) Method keep in mind to call onClientDisconnected(ClientHandler)
+       as your handler get disconnected.
+    */
     @Override
     public void removeHandler(ClientHandler client) {
         client.dispose();
@@ -59,6 +72,10 @@ public class ServerBase implements ServerInterface {
         this.onClientDisconnected(client);
     }
 
+    /*
+     When you override createHandler(ClientHandler) Method keep in mind to call onClientConnected(ClientHandler)
+     as your handler get linked to your server.
+  */
     @Override
     public void createHandler(Socket socket) {
         ClientHandler handler = new ClientHandler(this, socket);
@@ -67,6 +84,12 @@ public class ServerBase implements ServerInterface {
         this.onClientConnected(handler);
     }
 
+    /*
+     When you override the broadcastMessage(ClientHandler,String) method you should use the
+     sendMessage(String) method in the ClientHandler class in order to have a fast and error safe communication.
+     -> In case of error the sendMessage(String) methods notify the Server that client got an error, so the server
+        can disconnect the client automatically
+  */
     @Override
     public void broadcastMessage(ClientHandler sender, String message) {
         if (message != null)
@@ -75,11 +98,21 @@ public class ServerBase implements ServerInterface {
                     handler.sendMessage(message);
     }
 
+    /*
+        When you overide the method onHandlerMessageRecived(ClientHandler,String) you should ALWAYS
+        call the super.onHandlerMessageRecived(ClientHandler,String) in order to allow the server to
+        use handle client notifications.
+     */
     @Override
     public void onHandlerMessageRecived(ClientHandler client, String message) {
         if (message.equals(ClientListener.CLIENT_NOTIFY_DISCONNECT) || message.equals(ClientListener.CLIENT_NOTIFY_ERROR))
             this.removeHandler(client);
     }
+
+    /*
+        You should NEVER override this method as it provides the concurrent access form every ClientHandler
+        to the server and it handle automatically every message.
+     */
 
     @Override
     public void onMessageRecived(ClientHandler client, String message, int messageType) {
@@ -91,12 +124,18 @@ public class ServerBase implements ServerInterface {
         }
     }
 
+    /*
+          Override this method if you need a different message formatting.
+     */
     protected String getFormattedMessage(ClientHandler handler, String message) {
         String formattedMessage = handler.getClientName() + ": " + message;
         return formattedMessage;
     }
 
 
+    /*
+          You NEED to override this methods:
+     */
     @Override
     public void onClientConnected(ClientHandler client) {
     }

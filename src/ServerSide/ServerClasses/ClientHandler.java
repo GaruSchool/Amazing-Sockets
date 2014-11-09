@@ -50,8 +50,7 @@ public class ClientHandler extends Thread {
 
     public void sendMessage(String message) {
         try {
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            out.println(message);
+            new PrintWriter(socket.getOutputStream(), true).println(message);
         } catch (IOException e) {
             notifyClientDisconnect(ClientListener.CLIENT_NOTIFY_ERROR);
         }
