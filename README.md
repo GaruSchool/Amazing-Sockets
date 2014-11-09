@@ -7,7 +7,7 @@ The only class that you need to create an Amazing Sockets based server is the Ba
 
 > First of all you have to create a class that extends BaseServer Class and override the methods that you need.
 
-** Interface methods that you can override safetly:
+**Interface methods that you can override safetly:**
 
 
 	void onClientMessageRecived(ClientHandler client, String message)
