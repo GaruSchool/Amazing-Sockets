@@ -53,10 +53,10 @@ public class ServerBase implements ServerInterface {
     }
 
     @Override
-    public void removeHandler(ClientHandler handler) {
-        handler.dispose();
-        this.clientHandlers.remove(handler);
-        this.onClientDisconnected(handler);
+    public void removeHandler(ClientHandler client) {
+        client.dispose();
+        this.clientHandlers.remove(client);
+        this.onClientDisconnected(client);
     }
 
     @Override
@@ -76,18 +76,18 @@ public class ServerBase implements ServerInterface {
     }
 
     @Override
-    public void onHandlerMessageRecived(ClientHandler clientHandler, String message) {
+    public void onHandlerMessageRecived(ClientHandler client, String message) {
         if (message.equals(ClientListener.CLIENT_NOTIFY_DISCONNECT) || message.equals(ClientListener.CLIENT_NOTIFY_ERROR))
-            this.removeHandler(clientHandler);
+            this.removeHandler(client);
     }
 
     @Override
-    public void onMessageRecived(ClientHandler handler, String message, int messageType) {
+    public void onMessageRecived(ClientHandler client, String message, int messageType) {
         synchronized (this) {
             if (messageType == ServerInterface.MESSAGE_TYPE_CLIENT)
-                this.onClientMessageRecived(handler, message);
+                this.onClientMessageRecived(client, message);
             else if (messageType == ServerInterface.MESSAGE_TYPE_NOTIFY)
-                this.onHandlerMessageRecived(handler, message);
+                this.onHandlerMessageRecived(client, message);
         }
     }
 
@@ -98,18 +98,23 @@ public class ServerBase implements ServerInterface {
 
 
     @Override
-    public void onClientConnected(ClientHandler handler) {}
+    public void onClientConnected(ClientHandler client) {
+    }
 
     @Override
-    public void onClientDisconnected(ClientHandler handler) {}
+    public void onClientDisconnected(ClientHandler client) {
+    }
 
     @Override
-    public void onListeningStarted(int port) {}
+    public void onListeningStarted(int port) {
+    }
 
     @Override
-    public void onListeningStopped() {}
+    public void onListeningStopped() {
+    }
 
     @Override
-    public void onClientMessageRecived(ClientHandler client, String message) {}
+    public void onClientMessageRecived(ClientHandler client, String message) {
+    }
 
 }

@@ -16,6 +16,7 @@ public interface ServerInterface extends ClientListener {
                 in order to keep everything going fine.
 
      */
+
     public static String SERVER_DISCONNECTED = "#SERVER_DISCONNECTED";
     public static String SERVER_CONNECTED = "#SERVER_CONNECTED";
 
@@ -23,7 +24,7 @@ public interface ServerInterface extends ClientListener {
 
     public abstract void stopListening() throws IOException; // !
 
-    public abstract void removeHandler(ClientHandler handler); // !
+    public abstract void removeHandler(ClientHandler client); // !
 
     public abstract void createHandler(Socket socket); // !
 
@@ -31,16 +32,14 @@ public interface ServerInterface extends ClientListener {
 
     public abstract void onClientMessageRecived(ClientHandler client, String message);
 
-    public abstract void onHandlerMessageRecived(ClientHandler clientHandler, String message);
+    public abstract void onHandlerMessageRecived(ClientHandler client, String message);
 
-    public abstract void onClientConnected(ClientHandler handler);
+    public abstract void onClientConnected(ClientHandler client);
 
-    public abstract void onClientDisconnected(ClientHandler handler);
+    public abstract void onClientDisconnected(ClientHandler client);
 
     public abstract void onListeningStarted(int port);
 
     public abstract void onListeningStopped();
-
-
 
 }

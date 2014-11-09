@@ -17,7 +17,7 @@ public class ChatServer extends ServerBase {
         super(name, port);
     }
 
-    private static boolean canListen(int port) { // TODO -> Make it static  ?
+    private boolean canListen(int port) { // TODO -> Merge in with ServerBase ?
         try {
             ServerSocket testListener = new ServerSocket(port);
             testListener.close();
@@ -29,12 +29,17 @@ public class ChatServer extends ServerBase {
         return true;
     }
 
-    private static int getNextAvailablePort(int startingPort) {
+    private int getNextAvailablePort(int startingPort) {
         int port = startingPort;
         while (!canListen(port))
             port++;
         return port;
     }
+
+    /*
+            I've overwritted this method in order to handle the in-use-port exception
+            Now Server automatically get the next free port.
+     */
 
     @Override
     public void startListening() {
@@ -58,24 +63,23 @@ public class ChatServer extends ServerBase {
     }
 
     @Override
-    public void stopListening() throws IOException {
-        super.stopListening();
+    public void onListeningStopped() {
         System.out.println("Server Stopped");
     }
 
     @Override
-    public void onClientDisconnected(ClientHandler handler) {
-        System.out.println("#SERVER  \"" + handler.getClientName() + "\" Disconnected");
+    public void onClientDisconnected(ClientHandler client) {
+        System.out.println("#SERVER  \"" + client.getClientName() + "\" Disconnected");
     }
 
     @Override
-    public void onClientConnected(ClientHandler handler) {
-        System.out.println("#SERVER  \"" + handler.getClientName() + "\" Connected");
+    public void onClientConnected(ClientHandler client) {
+        System.out.println("#SERVER  \"" + client.getClientName() + "\" Connected");
     }
 
     @Override
     public void onClientMessageRecived(ClientHandler client, String message) {
         broadcastMessage(client, getFormattedMessage(client, message));
-        System.out.println(getFormattedMessage(client,message));
+        System.out.println(getFormattedMessage(client, message));
     }
 }

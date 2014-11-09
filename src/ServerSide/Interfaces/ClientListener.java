@@ -14,5 +14,5 @@ public interface ClientListener {
     public static String CLIENT_NOTIFY_DISCONNECT = "#CLIENT_DISCONNECTED";
     public static String CLIENT_MESSAGE_NAME = "#NICKNAME";
 
-    public abstract void onMessageRecived(ClientHandler handler, String message, int messageType);
+    public abstract void onMessageRecived(ClientHandler client, String message, int messageType);
 }

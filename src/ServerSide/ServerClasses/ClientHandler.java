@@ -25,7 +25,7 @@ public class ClientHandler extends Thread {
         this.listener = listener;
         this.isRunning = true;
         this.socket = socket;
-        name =  default_nickname;
+        name = default_nickname;
         sendMessage(ServerInterface.SERVER_CONNECTED);
     }
 
