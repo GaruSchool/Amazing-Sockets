@@ -1,4 +1,4 @@
-package ClientSide;
+package ClientSide.ClientClasses;
 
 import ClientSide.Interfaces.ClientInterface;
 import ClientSide.Interfaces.ClientMessageListener;
@@ -15,6 +15,7 @@ public class BaseClient implements ClientInterface {
     private String name;
     private Socket socket = null;
     private ClientReceiver clientReceiver;
+    private boolean isConnected;
 
     public BaseClient(String name) {
         this.name = name;
@@ -26,6 +27,7 @@ public class BaseClient implements ClientInterface {
             socket = new Socket(ip, port);
             clientReceiver = new ClientReceiver(this, socket);
             clientReceiver.start();
+            isConnected = true;
             notifyConnected();
         } catch (IOException e) {
             clientReceiver.interrupt();
@@ -52,15 +54,16 @@ public class BaseClient implements ClientInterface {
         if (message.equals(ClientReceiver.MESSAGE_DISCONNECTED)) {
             if (clientReceiver != null)
                 this.clientReceiver.dispose();
+            isConnected = false;
             notifyDisconnected();
         }
     }
 
     @Override
     public void onMessageRecived(String message, int messageType) {
-        if (messageType == ClientMessageListener.MESSAGE_TYPE_HANDLER)
+        if (messageType == ClientMessageListener.MESSAGE_TYPE_SERVER)
             onClientMessageRecived(message);
-        else if (messageType == ClientMessageListener.MESSAGE_TYPE_SERVER)
+        else if (messageType == ClientMessageListener.MESSAGE_TYPE_HANDLER)
             onHandlerMessageRecived(message);
     }
 
@@ -82,4 +85,7 @@ public class BaseClient implements ClientInterface {
     public void onMessageSent(String message) {
     }
 
+    public boolean isConnected() {
+        return this.isConnected;
+    }
 }

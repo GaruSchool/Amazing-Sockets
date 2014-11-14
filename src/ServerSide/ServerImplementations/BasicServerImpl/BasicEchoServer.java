@@ -11,10 +11,11 @@ public class BasicEchoServer extends ServerBase {
     @Override
     public void onClientMessageRecived(ClientHandler client, String message) {
         client.sendMessage(message);
+        System.out.println(message);
     }
 
     @Override
     public void onListeningStarted(int port) {
-        System.out.println("Server Started, Listening on port: " + port);
+        System.out.println("EchoServer Started, Listening on port: " + port);
     }
 }

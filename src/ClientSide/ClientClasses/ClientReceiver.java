@@ -1,4 +1,4 @@
-package ClientSide;
+package ClientSide.ClientClasses;
 
 import ClientSide.Interfaces.ClientMessageListener;
 
@@ -38,21 +38,7 @@ public class ClientReceiver extends Thread {
 
     }
 
-    public ClientMessageListener getListener() {
-        return listener;
-    }
 
-    public void setListener(ClientMessageListener listener) {
-        this.listener = listener;
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
 
     private void notifyDisconnected() {
         listener.onMessageRecived(MESSAGE_DISCONNECTED, ClientMessageListener.MESSAGE_TYPE_HANDLER);
