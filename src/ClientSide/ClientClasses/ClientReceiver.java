@@ -39,7 +39,6 @@ public class ClientReceiver extends Thread {
     }
 
 
-
     private void notifyDisconnected() {
         listener.onMessageRecived(MESSAGE_DISCONNECTED, ClientMessageListener.MESSAGE_TYPE_HANDLER);
     }
