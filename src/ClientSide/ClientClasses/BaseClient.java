@@ -48,7 +48,7 @@ public class BaseClient implements ClientInterface {
             clientReceiver = new ClientReceiver(this, socket);
             clientReceiver.start();
             isConnected = true;
-            notifyConnected();
+            onConnected();
         } catch (IOException e) {
             clientReceiver.interrupt();
         }
@@ -75,7 +75,7 @@ public class BaseClient implements ClientInterface {
             if (clientReceiver != null)
                 this.clientReceiver.dispose();
             isConnected = false;
-            notifyDisconnected();
+            onDisconnected();
         }
     }
 
@@ -89,11 +89,11 @@ public class BaseClient implements ClientInterface {
 
 
     @Override
-    public void notifyDisconnected() {
+    public void onDisconnected() {
     }
 
     @Override
-    public void notifyConnected() {
+    public void onConnected() {
         sendMessage("#NICKNAME " + name);
     }
 

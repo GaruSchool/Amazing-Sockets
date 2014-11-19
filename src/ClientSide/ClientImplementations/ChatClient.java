@@ -31,13 +31,13 @@ public class ChatClient extends BaseClient {
     }
 
     @Override
-    public void notifyConnected() {
-        super.notifyConnected();
+    public void onConnected() {
+        super.onConnected();
         System.out.println("#Connesso al server");
     }
 
     @Override
-    public void notifyDisconnected() {
+    public void onDisconnected() {
         System.out.println("#Disconnesso dal server");
     }
 

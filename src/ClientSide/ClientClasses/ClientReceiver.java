@@ -34,10 +34,8 @@ public class ClientReceiver extends Thread {
 
     public static String MESSAGE_DISCONNECTED = "#DISCONNECTED";
 
-
     private ClientMessageListener listener;
     private Socket socket;
-
 
     public ClientReceiver(ClientMessageListener listener, Socket socket) {
         this.listener = listener;
@@ -55,9 +53,7 @@ public class ClientReceiver extends Thread {
         } catch (IOException e) {
             notifyDisconnected();
         }
-
     }
-
 
     private void notifyDisconnected() {
         listener.onMessageRecived(MESSAGE_DISCONNECTED, ClientMessageListener.MESSAGE_TYPE_HANDLER);

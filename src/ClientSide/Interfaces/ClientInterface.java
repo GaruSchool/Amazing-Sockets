@@ -31,9 +31,9 @@ public interface ClientInterface extends ClientMessageListener {
 
     public abstract void sendMessage(String message) throws IOException;
 
-    public abstract void notifyDisconnected();
+    public abstract void onDisconnected();
 
-    public abstract void notifyConnected();
+    public abstract void onConnected();
 
     public abstract void onHandlerMessageRecived(String message); // !
 
