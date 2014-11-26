@@ -9,8 +9,8 @@ import java.net.Socket;
 
 /**
  * Amazing Sockets Created by Tommaso Garuglieri
- * <p/>
  * GitHub Repository: https://github.com/GaruSchool/Amazing-Sockets/
+ *
  * Contact: garuglieritommaso@gmail.com
  * <p/>
  * <Amazing Sockets - Java Socket Interface to simplify the communication.>

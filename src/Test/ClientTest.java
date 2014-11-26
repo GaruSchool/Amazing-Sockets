@@ -2,7 +2,7 @@ package Test;
 
 import ClientSide.ClientClasses.BaseClient;
 import ClientSide.ClientImplementations.ChatClient;
-import Console.ConsoleManager;
+import Helpers.ConsoleManager;
 
 import java.io.IOException;
 
@@ -16,12 +16,10 @@ public class ClientTest {
         myClient.connect("127.0.0.1", 9999);
 
         String input = "";
-        while (input != null && myClient.isConnected()) {
+        while (input != "#DISCONNECT" && myClient.isConnected()) {
             input = ConsoleManager.getInput();
             myClient.sendMessage(input);
         }
 
     }
-
-
 }

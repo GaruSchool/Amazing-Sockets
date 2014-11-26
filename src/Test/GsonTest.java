@@ -2,6 +2,21 @@ package Test;
 
 import GsonServer.GsonConverter;
 
+class TestClass {
+    private int bubu;
+    private int bubi;
+    private float bubini;
+    private String name;
+
+    TestClass(int bubu, int bubi, float bubini, String name) {
+        this.bubu = bubu;
+        this.bubi = bubi;
+        this.bubini = bubini;
+        this.name = name;
+    }
+}
+
+
 /**
  * Created by t.garuglieri on 19/11/2014.
  */
@@ -17,6 +32,6 @@ public class GsonTest {
         System.out.println(gsonStr);
 
         TestClass reconvertedObj = (TestClass) GsonConverter.getObject(gsonStr, TestClass.class);
-        //TODO :)
+
     }
 }

@@ -59,7 +59,6 @@ public class ClientHandler extends Thread {
                     handleMessage(input);
                 else
                     notifyClientDisconnect(ClientListener.CLIENT_NOTIFY_DISCONNECT);
-
             }
 
         } catch (IOException e) {

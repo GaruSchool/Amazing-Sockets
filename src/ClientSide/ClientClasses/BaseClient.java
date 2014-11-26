@@ -50,7 +50,7 @@ public class BaseClient implements ClientInterface {
             isConnected = true;
             onConnected();
         } catch (IOException e) {
-            clientReceiver.interrupt();
+            clientReceiver.dispose();
         }
     }
 
@@ -63,7 +63,7 @@ public class BaseClient implements ClientInterface {
                 onMessageSent(message);
             } catch (IOException e) {
                 if (clientReceiver != null)
-                    clientReceiver.interrupt();
+                    clientReceiver.dispose();
                 clientReceiver = null;
             }
     }

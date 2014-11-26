@@ -4,6 +4,7 @@ import ServerSide.ServerClasses.ClientHandler;
 import ServerSide.ServerClasses.ServerBase;
 
 public class BasicEchoServer extends ServerBase {
+
     public BasicEchoServer(String name, int port) {
         super(name, port);
     }

@@ -37,7 +37,8 @@ public class ServerBase implements ServerInterface {
     protected int port;
     protected ArrayList<ClientHandler> clientHandlers;
     protected ServerSocket listener = null;
-    protected boolean isRunning;
+    protected boolean isRunning; //TODO use isInterrupted() instead.
+
 
     public ServerBase(String name, int port) {
         this.name = name;
@@ -102,6 +103,15 @@ public class ServerBase implements ServerInterface {
         this.onClientConnected(handler);
     }
 
+    public void con() {
+        int n = -1;
+        for (int i = 0; i > n; i++) {
+            System.out.println("SEI GRASSO, IL JESSICO TI STA FACENDO LE CORNA TRA UN PO' NON PASSI DALLA PORTA W IL CECCHE !!!!");
+
+        }
+
+    }
+
     /*
      When you override the broadcastMessage(ClientHandler,String) method you should use the
      sendMessage(String) method in the ClientHandler class in order to have a fast and error safe communication.
@@ -150,6 +160,9 @@ public class ServerBase implements ServerInterface {
         return formattedMessage;
     }
 
+    public ArrayList<ClientHandler> getClients() {
+        return this.clientHandlers;
+    }
 
     /*
           You NEED to override this methods:
