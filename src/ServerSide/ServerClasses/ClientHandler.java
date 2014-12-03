@@ -1,5 +1,6 @@
 package ServerSide.ServerClasses;
 
+import Helpers.MathHelper;
 import ServerSide.Interfaces.ClientListener;
 import ServerSide.Interfaces.ServerInterface;
 
@@ -34,7 +35,7 @@ import java.net.Socket;
 
 public class ClientHandler extends Thread {
 
-    private static String default_nickname = "UnamedClient";
+    private static String default_nickname = "UnamedClient " + MathHelper.getRandomInt();
 
     private Socket socket;
     private ClientListener listener;
@@ -75,8 +76,8 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private void notifyClientDisconnect(String disconnectType) {
-        listener.onMessageRecived(this, disconnectType, ClientListener.MESSAGE_TYPE_NOTIFY);
+    private void notifyClientDisconnect(String disconnectMessage) {
+        listener.onMessageRecived(this, disconnectMessage, ClientListener.MESSAGE_TYPE_NOTIFY);
     }
 
     public void dispose() {
